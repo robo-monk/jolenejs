@@ -1,0 +1,6 @@
+manager: yarn
+
+package_npm_name: jolenejs
+package_name: jolenejs
+
+test?: no # or yes
