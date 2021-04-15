@@ -11,6 +11,11 @@
 ## WARNING
 While jolenejs uses `localStorage` which is relatively secure (as secure as cookies), if your app is vulnerable to [ XSS attacks ](https://owasp.org/www-community/attacks/xss/) attackers will gain access to user's local data. Use jolenejs with caution.
 
+## Install
+```
+yarn add jolenejs
+npm i jolenejs
+```
 
 ## Usage
 
