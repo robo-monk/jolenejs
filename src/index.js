@@ -3,3 +3,5 @@ export * from "./.build_assets/index" // globalifies pragmajs, exports packages 
 export function jolenejsTest(){
     console.log("hello from _jolenejs")
 }
+
+export { Jolene } from "./pragmas/index"

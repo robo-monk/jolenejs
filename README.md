@@ -8,6 +8,36 @@
 
 ### [ Demo ](https://robo-monk.github.io/jolenejs)
 
+## WARNING
+While jolenejs is relatively & generally secure, if your app is vulnerable to [ XSS attacks ](https://owasp.org/www-community/attacks/xss/) attackers will able to decrypt and have access to user's local data. Use jolenejs with caution.
+
+
+## Usage
+
+```javascript
+
+jolene.store("which way?", new Promise((resolve, reject) => {
+    resolve("that way")
+})) // you can use promises to derive both the key and the value
+
+// ...
+
+jolene.get("which way?") // "that way"  
+
+jolene.on('store', (key, value) => {
+    console.log(key, value)
+})
+
+jolene.on('get', (key, value) => {
+    console.log(key, value)
+})
+
+```
+
+## Proposition
+
+It uses [ paralleljs ](https://www.npmjs.com/package/paralleljs) to run in the background, without interrupting the main thread.
+
 
 ## First time:
 
