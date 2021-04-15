@@ -9,35 +9,30 @@
 ### [ Demo ](https://robo-monk.github.io/jolenejs)
 
 ## WARNING
-While jolenejs is relatively & generally secure, if your app is vulnerable to [ XSS attacks ](https://owasp.org/www-community/attacks/xss/) attackers will able to decrypt and have access to user's local data. Use jolenejs with caution.
+While jolenejs uses `localStorage` which is relatively secure (as secure as cookies), if your app is vulnerable to [ XSS attacks ](https://owasp.org/www-community/attacks/xss/) attackers will able to gain access to user's local data. Use jolenejs with caution.
 
 
 ## Usage
 
 ```javascript
 
-jolene.store("which way?", new Promise((resolve, reject) => {
-    resolve("that way")
-})) // you can use promises to derive both the key and the value
-
-// ...
-
-jolene.get("which way?") // "that way"  
-
-jolene.on('store', (key, value) => {
-    console.log(key, value)
+jolene = new jolenejs.Jolene
+jolene.on("set", (key, value) => {
+    console.log('jolene just set', key, value)
 })
 
-jolene.on('get', (key, value) => {
-    console.log(key, value)
-})
+//jolene.set('key', 1)
+
+jolene.set("fready-user > token > digest ", "ahdfjadfh-adfkaljdfa-fakfj")
+token = jolene.get("fready-user > token")
+
+console.log(jolene.get('fready-user'))
+setTimeout(() => {
+    jolene.set("fready-user > yoinger > shiiii ", "ahdfjadfh-adfkaljdfa-fakfj")
+    console.log(jolene.get('fready-user'))
+}, 1000)
 
 ```
-
-## Proposition
-
-It uses [ paralleljs ](https://www.npmjs.com/package/paralleljs) to run in the background, without interrupting the main thread.
-
 
 ## First time:
 
