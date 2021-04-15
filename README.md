@@ -62,16 +62,6 @@ describe("jolene on set", () => {
 
 ```
 
-jolene.set("fready-user > token > digest ", "ahdfjadfh-adfkaljdfa-fakfj")
-token = jolene.get("fready-user > token")
-
-console.log(jolene.get('fready-user'))
-setTimeout(() => {
-    jolene.set("fready-user > yoinger > shiiii ", "ahdfjadfh-adfkaljdfa-fakfj")
-    console.log(jolene.get('fready-user'))
-}, 1000)
-
-```
 
 ## First time:
 
