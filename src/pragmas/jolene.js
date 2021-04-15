@@ -1,9 +1,9 @@
-import { Pragma } from "pragmajs"
+import { _p } from "pragmajs"
 
 
-const isObj = o => (o !== null) && typeof o === 'object'
+export const isObj = o => (o !== null) && typeof o === 'object'
 
-function deepMerge(obj, edit) {
+export function deepMerge(obj, edit) {
   if (!isObj(obj) || !isObj(edit)) return edit
 
   for (let [key, value] of Object.entries(edit)) {
@@ -23,39 +23,42 @@ function getLocal(key){
 }
 
 
-export class Jolene extends Pragma {
-    constructor() {
-        super()
+export class Jolene {
+    static watcher = _p('jolene-watcher')
+                        .createEvents('set', 'get')
 
-        this.createEvents("set", "get", "setHash")
-        this.on('setHash', (hash) => {
-            this._currentHash = hash
-        })
+    static on() {
+        return Jolene.watcher.on(arguments)
+    }
+    static setLocal(key, value){
+        return localStorage.setItem("jolene", JSON.stringify({[key]: value}))
     }
 
-    set currentHash(hash) {
-        this.triggerEvent("setHash", hash)
+    static getLocal(key=null){
+        let jolene = JSON.parse(localStorage.getItem("jolene"))
+        if (jolene == null) return null
+        if (key == null) return jolene
+        return jolene[key]
     }
 
+    static set(key, value) {
+        Jolene.watcher.triggerEvent("set", key, value)
 
-    set(key, value) {
-        this.triggerEvent("set", key, value)
         let keys = key.split(">").map(level => level.trim())
 
-        let target_key = keys[keys.length-1]
         let shape = keys.reduceRight((dict, current, i) => { 
             let val = i == keys.length-1 ? value : Object.assign({}, dict)
             return { [current]: val, lastModified: new Date() }
         } , {})
 
         let origin_key = keys[0] 
-        let diff = deepMerge(this._get(origin_key), shape)
-        setLocal(origin_key, diff)
+        let diff = deepMerge(Jolene._get(origin_key), shape)
+        Jolene.setLocal(origin_key, diff)
         
         return value
     }
 
-    _get(...keys){
+    static _get(...keys){
         let value = keys.slice(1).reduce((last, current) => {
 
             if (last != null && isObj(last) && (current in last)) {
@@ -64,16 +67,18 @@ export class Jolene extends Pragma {
                 return null
             }
 
-        }, getLocal(keys[0]))
+        }, Jolene.getLocal(keys[0]))
 
 
         return value       
     }
 
-    get(key) {
+    static get(key=null) {
+        if (key === null) { return Jolene.getLocal() }
+
         let keys = key.split(">").map(level => level.trim())
-        let value =  this._get(...keys)
-        this.triggerEvent("get", key, value)
+        let value =  Jolene._get(...keys)
+        Jolene.watcher.triggerEvent("get", key, value)
         return value 
     }
 }

@@ -1,1 +1,1 @@
-export { Jolene } from "./pragmas/index"
+export { Jolene as jolene, deepMerge, isObj } from "./pragmas/jolene"

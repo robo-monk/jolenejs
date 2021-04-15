@@ -16,21 +16,25 @@ While jolenejs is relatively & generally secure, if your app is vulnerable to [ 
 
 ```javascript
 
-jolene.store("which way?", new Promise((resolve, reject) => {
-    resolve("that way")
-})) // you can use promises to derive both the key and the value
+jolene = jolenejs.jolene
 
-// ...
-
-jolene.get("which way?") // "that way"  
-
-jolene.on('store', (key, value) => {
-    console.log(key, value)
+jolene.on("set", (key, value) => {
+    console.log('jolene just set', key, value)
 })
 
-jolene.on('get', (key, value) => {
-    console.log(key, value)
+jolene.on("get", (key, value) => {
+    console.log('jolene just set', key, value)
 })
+
+jolene.set("fready-user > token > digest ", "ahdfjadfh-adfkaljdfa-fakfj")
+
+token = jolene.get("fready-user > token")
+token.digest == jolene.get("fready-user > token > digest") // true
+
+setTimeout(() => {
+    jolene.set("fready-user > yoinger > shiiii ", "ahdfjadfh-adfkaljdfa-fakfj")
+    console.log(jolene.get('fready-user'))
+}, 1000)
 
 ```
 

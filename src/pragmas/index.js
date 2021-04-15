@@ -1,2 +1,0 @@
-export { Jolene } from "./jolene"
-
