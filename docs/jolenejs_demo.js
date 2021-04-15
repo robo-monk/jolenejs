@@ -8,15 +8,14 @@ jolene.on("set", (key, value) => {
 
 //jolene.set('key', 1)
 
-jolene.set("fready-user-token", {
-    user: "bob"
-})
+jolene.set("fready-user > token > digest ", "ahdfjadfh-adfkaljdfa-fakfj")
+token = jolene.get("fready-user > token")
 
-jolene.set("fready-user-token > user > yeet > how > deep can > this go", {
-    is: "this possible?"    
-})
-bobValue = jolene.get("fready-user-token")
-bobValue = jolene.get("fready-user-token > user > yeet")
+console.log(jolene.get('fready-user'))
+setTimeout(() => {
+    jolene.set("fready-user > yoinger > shiiii ", "ahdfjadfh-adfkaljdfa-fakfj")
+    console.log(jolene.get('fready-user'))
+}, 1000)
 //bobValue =jolene.get("fready-user-token").get("bob").value
 //jolene.get("fready-user-token").set("user", "bob")
 
