@@ -14,7 +14,7 @@ const env = process.env["jolenejs_ENV"]
 const prod = (env=='production' || env == 'prod')
 
 function ifProd(plug, params){
-  return prod ? plug(params) : null
+  return true || prod ? plug(params) : null
 }
 
 const plugs = [

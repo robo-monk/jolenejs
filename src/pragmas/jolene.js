@@ -37,9 +37,6 @@ export class Jolene extends Pragma {
         this.triggerEvent("setHash", hash)
     }
 
-    test() {
-        console.log('whats up')
-    }
 
     set(key, value) {
         this.triggerEvent("set", key, value)
@@ -53,9 +50,6 @@ export class Jolene extends Pragma {
 
         let origin_key = keys[0] 
         let diff = deepMerge(this._get(origin_key), shape)
-        console.log('existing', this._get(origin_key))
-        console.log('diff', diff)
-        console.log('shape', shape)
         setLocal(origin_key, diff)
         
         return value
@@ -82,8 +76,5 @@ export class Jolene extends Pragma {
         this.triggerEvent("get", key, value)
         return value 
     }
-
-    toHash(){
-         
-    }
 }
+
