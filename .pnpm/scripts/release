@@ -21,8 +21,17 @@ if len(sys.argv) > 1:
     package_manager = sys.argv[1]
 
 
+# os.environ[f"{pkg_name}_ENV"] = 'production'
 
 # test
+
+if (config('test?')):
+    passed = popen("yarn test")
+    if passed:
+        c.log(f"[italic green] Tests passed!")
+    else:
+        c.fail(f"Tests failed!")
+        quit()
 
 
 # set version
@@ -66,6 +75,7 @@ else:
     c.done()
     c = spawn(f"publish this as version: {new_version}")
 
+pnpm("build --env production")
 if not skip_conf: 
     if c.input(f"Confirm?", "[y/n]") == 'y':
         package['version'] = new_version
@@ -75,15 +85,6 @@ if not skip_conf:
     else:
         c.warn('Aborted')
         c.done()
-        quit()
-
-run(' --env production')
-if (config('test?')):
-    passed = popen("yarn test")
-    if passed:
-        c.log(f"[italic green] Tests passed!")
-    else:
-        c.fail(f"Tests failed!")
         quit()
 
 release()

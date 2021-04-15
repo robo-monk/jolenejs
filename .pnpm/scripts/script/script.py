@@ -4,6 +4,7 @@ import json
 from script import config
 import os
 
+print(sys.argv[1])
 _params = json.loads(sys.argv[1]) if len(sys.argv)>1 else {}
 
 def params(key=None):
@@ -25,6 +26,7 @@ if params("reload") or env=='prod':
     sb.call(f"{pkg_manager} install", shell=True)
 
 def shell(cmd):
+    print('runnig', cmd)
     sb.call(cmd, shell=True)
 
 def npm(cmd):
@@ -37,3 +39,17 @@ def popen(cmd):
     proc = sb.Popen(cmd, stdout=sb.PIPE, shell=True)
     return proc.communicate()[0] == 0
     
+def pnpm(cmd):
+    ctx = cmd.split(" ")
+    passed_kwargs = dict()
+    for i, e in enumerate(ctx):
+        if (e.startswith('-')):
+            passed_kwargs[e] = True
+        elif not ctx[i-1].startswith('-'):
+            passed_kwargs[str(i)] = e
+        else:
+            passed_kwargs[ctx[i-1]] = e
+
+    print('ctx', passed_kwargs)
+
+    shell(f"python3 .pnpm/scripts/{ctx[0]} '{json.dumps(passed_kwargs)}'")
