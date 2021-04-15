@@ -1,6 +1,6 @@
 {
     "name": "jolenejs",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "jolenejs is awesome",
     "license": "MIT",
     "repository": {
@@ -41,7 +41,6 @@
     },
     "scripts": {
         "build": "rollup -c",
-        "dev-style": "nodemon -w 'src/styles/**' -e css,scss --exec python3 .pnpm/scripts/sass",
         "dev": "nodemon -w 'src/' -e css,scss,js,svg --exec python3 .pnpm/scripts/build",
         "dev-rollup": "rollup -c -w",
         "lint": "yarn run eslint src",
