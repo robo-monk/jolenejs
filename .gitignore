@@ -2,5 +2,6 @@ node_modules/
 .yarn
 
 .pnpm/icona
+.pnpm/
 dist
 .pnp.js
