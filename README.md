@@ -9,39 +9,69 @@
 ### [ Demo ](https://robo-monk.github.io/jolenejs)
 
 ## WARNING
-While jolenejs is relatively & generally secure, if your app is vulnerable to [ XSS attacks ](https://owasp.org/www-community/attacks/xss/) attackers will able to decrypt and have access to user's local data. Use jolenejs with caution.
+While jolenejs uses `localStorage` which is relatively secure (as secure as cookies), if your app is vulnerable to [ XSS attacks ](https://owasp.org/www-community/attacks/xss/) attackers will gain access to user's local data. Use jolenejs with caution.
 
+## Install
+```
+yarn add jolenejs
+npm i jolenejs
+```
 
 ## Usage
 
 ```javascript
 
-jolene = jolenejs.jolene
+jolene = jolenejs.jolene                         // browser
+// const jolene = require('jolenejs').jolene    // commonjs
+// import { jolene } from "jolenejs"            // es6
 
-jolene.on("set", (key, value) => {
-    console.log('jolene just set', key, value)
+describe('jolene set', () => {
+    test("simple set", () => {
+        jolene.set("fready-user > token > yeet ", 420)
+        token = jolene.get("fready-user > token > yeet")
+        expect(token).toBe(420)
+    })
+
+    test("saves type of variables", () => {
+        jolene.set("fready-user > token > digest ", "420")
+        jolene.set("fready-user > token > number ", 420)
+
+        expect(jolene.get("fready-user > token > number")).toBe(420)
+        expect(jolene.get("fready-user > token").number).toBe(420)
+    })
+
+    test("trip", () => {
+        jolene.set("fready-user > token > digest > how > deep > can > this > be", { yeet: "yoing" })
+
+        expect(jolene.get("fready-user > token > digest > how > deep > can > this > be > yeet")).toBe("yoing")
+    })
+
 })
 
-jolene.on("get", (key, value) => {
-    console.log('jolene just set', key, value)
+describe("jolene on set", () => {
+    test("simple case", () => {
+        let _set = null
+        jolene.on("set", (key, value) => {
+            _set = [ key, value ]
+        })
+
+        jolene.set("fready-user > token > digest", "xcq")
+        expect(_set).toStrictEqual([ "fready-user > token > digest", "xcq"])
+    })
 })
+
+```
 
 jolene.set("fready-user > token > digest ", "ahdfjadfh-adfkaljdfa-fakfj")
-
 token = jolene.get("fready-user > token")
-token.digest == jolene.get("fready-user > token > digest") // true
 
+console.log(jolene.get('fready-user'))
 setTimeout(() => {
     jolene.set("fready-user > yoinger > shiiii ", "ahdfjadfh-adfkaljdfa-fakfj")
     console.log(jolene.get('fready-user'))
 }, 1000)
 
 ```
-
-## Proposition
-
-It uses [ paralleljs ](https://www.npmjs.com/package/paralleljs) to run in the background, without interrupting the main thread.
-
 
 ## First time:
 
