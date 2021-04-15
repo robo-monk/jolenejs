@@ -46,13 +46,20 @@ else:
 
 
 package = {}
+def get_from_package(key):
+    with open('package.json', 'r') as f:
+        package = json.load(f)
+        if key is None: return package
+        return package[key]
+
+
+
 with open('package.json', 'r') as f:
     package = json.load(f)
 
 pv = package['version']
 tag = "bold green" if str(v) == str(pv) else "bold yellow"
 c.log(f"[{tag}]Current local version: {pv}")
-
 
 print(params())
 skip_conf = False
@@ -89,3 +96,7 @@ if not skip_conf:
 
 release()
 c.done("Package published succesfully to the NPM repository.")
+
+c = spawn("Commiting to git")
+shell(f"git add . && git commit -m 'release version {get_from_package('version')}'")
+c.done()
