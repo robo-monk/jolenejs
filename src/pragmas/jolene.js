@@ -14,28 +14,19 @@ export function deepMerge(obj, edit) {
   return obj
 }
 
-function setLocal(key, value){
-    return localStorage.setItem(key, JSON.stringify(value))
-}
-
-function getLocal(key){
-    return JSON.parse(localStorage.getItem(key))
-}
-
-
 export class Jolene {
     static watcher = _p('jolene-watcher')
                         .createEvents('set', 'get')
 
     static on() {
-        return Jolene.watcher.on(arguments)
+        return Jolene.watcher.on(...arguments)
     }
     static setLocal(key, value){
-        return localStorage.setItem("jolene", JSON.stringify({[key]: value}))
+        return window.localStorage.setItem("jolene", JSON.stringify({[key]: value}))
     }
 
     static getLocal(key=null){
-        let jolene = JSON.parse(localStorage.getItem("jolene"))
+        let jolene = JSON.parse(window.localStorage.getItem("jolene"))
         if (jolene == null) return null
         if (key == null) return jolene
         return jolene[key]
@@ -53,7 +44,7 @@ export class Jolene {
 
         let origin_key = keys[0] 
         let diff = deepMerge(Jolene._get(origin_key), shape)
-        Jolene.setLocal(origin_key, diff)
+        Jolene.setLocal(origin_key, diff[origin_key])
         
         return value
     }
@@ -78,7 +69,7 @@ export class Jolene {
 
         let keys = key.split(">").map(level => level.trim())
         let value =  Jolene._get(...keys)
-        Jolene.watcher.triggerEvent("get", key, value)
+        Jolene.watcher.triggerEvent("get", key.trim(), value)
         return value 
     }
 }
