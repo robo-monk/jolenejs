@@ -1,5 +1,7 @@
 ![npm-size](https://img.shields.io/npm/v/jolenejs?style=flat-square)
+
 ![npm-size](https://img.shields.io/github/commit-activity/m/robo-monk/jolenejs?style=flat-square)
+
 ![npm-size](https://img.shields.io/npm/dw/jolenejs?style=flat-square)
 
 # jolenejs 
