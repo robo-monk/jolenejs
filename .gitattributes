@@ -1,2 +1,1 @@
-src/* linguist-vendored=true
-.pnpm/* linguist-vendored=false
+.pnpm/* linguist-vendored=true
